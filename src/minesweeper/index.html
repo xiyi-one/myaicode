@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扫雷游戏</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { text-align: center; color: #333; margin-bottom: 20px; }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .info span { padding: 8px 15px; background: #f0f0f0; border-radius: 8px; }
+        .grid {
+            display: grid;
+            gap: 2px;
+            background: #ccc;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .cell {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .cell:hover:not(.revealed) { transform: scale(1.1); }
+        .cell.hidden { background: #4a90d9; }
+        .cell.revealed { background: #e0e0e0; cursor: default; }
+        .cell.mine { background: #e74c3c; }
+        .cell.flagged { background: #f39c12; }
+        .cell[data-num="1"] { color: #2196F3; }
+        .cell[data-num="2"] { color: #4CAF50; }
+        .cell[data-num="3"] { color: #F44336; }
+        .cell[data-num="4"] { color: #9C27B0; }
+        .cell[data-num="5"] { color: #795548; }
+        .cell[data-num="6"] { color: #00BCD4; }
+        .cell[data-num="7"] { color: #000; }
+        .cell[data-num="8"] { color: #777; }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💣 扫雷游戏</h1>
+        <div class="info">
+            <span>🚩 <span id="flags">10</span></span>
+            <span>⏱️ <span id="timer">0</span>s</span>
+        </div>
+        <div class="grid" id="grid"></div>
+        <button onclick="initGame()">🔄 重新开始</button>
+    </div>
+    <script>
+        const ROWS = 10, COLS = 10, MINES = 10;
+        let grid = [], revealed = [], flagged = [], gameOver = false, timer, seconds = 0, flags = MINES;
+
+        function initGame() {
+            grid = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+            revealed = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+            flagged = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+            gameOver = false;
+            seconds = 0;
+            flags = MINES;
+            document.getElementById('flags').textContent = flags;
+            document.getElementById('timer').textContent = 0;
+            clearInterval(timer);
+            timer = setInterval(() => {
+                if (!gameOver) {
+                    seconds++;
+                    document.getElementById('timer').textContent = seconds;
+                }
+            }, 1000);
+            placeMines();
+            calculateNumbers();
+            renderGrid();
+        }
+
+        function placeMines() {
+            let placed = 0;
+            while (placed < MINES) {
+                const r = Math.floor(Math.random() * ROWS);
+                const c = Math.floor(Math.random() * COLS);
+                if (grid[r][c] !== -1) {
+                    grid[r][c] = -1;
+                    placed++;
+                }
+            }
+        }
+
+        function calculateNumbers() {
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (grid[r][c] === -1) continue;
+                    let count = 0;
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            const nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && grid[nr][nc] === -1) {
+                                count++;
+                            }
+                        }
+                    }
+                    grid[r][c] = count;
+                }
+            }
+        }
+
+        function renderGrid() {
+            const gridEl = document.getElementById('grid');
+            gridEl.innerHTML = '';
+            gridEl.style.gridTemplateColumns = `repeat(${COLS}, 35px)`;
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'cell hidden';
+                    btn.dataset.r = r;
+                    btn.dataset.c = c;
+                    btn.onclick = () => revealCell(r, c);
+                    btn.oncontextmenu = (e) => {
+                        e.preventDefault();
+                        toggleFlag(r, c);
+                    };
+                    gridEl.appendChild(btn);
+                }
+            }
+        }
+
+        function revealCell(r, c) {
+            if (gameOver || flagged[r][c] || revealed[r][c]) return;
+            revealed[r][c] = true;
+            const btn = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+            btn.classList.remove('hidden');
+            btn.classList.add('revealed');
+            
+            if (grid[r][c] === -1) {
+                btn.classList.add('mine');
+                btn.textContent = '💣';
+                endGame(false);
+            } else {
+                if (grid[r][c] > 0) {
+                    btn.textContent = grid[r][c];
+                    btn.dataset.num = grid[r][c];
+                } else {
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            const nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+                                revealCell(nr, nc);
+                            }
+                        }
+                    }
+                }
+                checkWin();
+            }
+        }
+
+        function toggleFlag(r, c) {
+            if (gameOver || revealed[r][c]) return;
+            const btn = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+            if (flagged[r][c]) {
+                flagged[r][c] = false;
+                btn.classList.remove('flagged');
+                btn.textContent = '';
+                flags++;
+            } else if (flags > 0) {
+                flagged[r][c] = true;
+                btn.classList.add('flagged');
+                btn.textContent = '🚩';
+                flags--;
+            }
+            document.getElementById('flags').textContent = flags;
+        }
+
+        function checkWin() {
+            let unrevealed = 0;
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (!revealed[r][c]) unrevealed++;
+                }
+            }
+            if (unrevealed === MINES) endGame(true);
+        }
+
+        function endGame(win) {
+            gameOver = true;
+            clearInterval(timer);
+            if (win) {
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (grid[r][c] === -1 && !flagged[r][c]) {
+                            const btn = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+                            btn.classList.remove('hidden');
+                            btn.classList.add('flagged');
+                            btn.textContent = '🚩';
+                        }
+                    }
+                }
+                setTimeout(() => alert(`🎉 恭喜获胜！用时 ${seconds} 秒`));
+            } else {
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (grid[r][c] === -1) {
+                            const btn = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+                            btn.classList.remove('hidden');
+                            btn.classList.add('mine');
+                            btn.textContent = '💣';
+                        }
+                    }
+                }
+                setTimeout(() => alert('💥 游戏结束！'));
+            }
+        }
+        initGame();
+    </script>
+</body>
+</html>
