@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>myaicode games</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at top, #8ad6ff 0%, #e3f7ff 60%);
+      }
+
+      main {
+        padding: 2rem 1.5rem;
+        background: #ffffffee;
+        border-radius: 18px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+        max-width: 640px;
+        width: 100%;
+      }
+
+      h1 {
+        margin: 0 0 0.5rem;
+        font-size: 1.9rem;
+        letter-spacing: 0.03em;
+        text-align: center;
+        color: #0f172a;
+      }
+
+      p.description {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #475569;
+        font-size: 0.98rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      a.game-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1.1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        background: #0ea5e9;
+        color: #f9fafb;
+        font-weight: 600;
+        font-size: 0.98rem;
+        box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+        transition:
+          transform 140ms ease,
+          box-shadow 140ms ease,
+          background 140ms ease;
+      }
+
+      a.game-link span.secondary {
+        font-weight: 400;
+        font-size: 0.85rem;
+        opacity: 0.9;
+      }
+
+      a.game-link:hover {
+        background: #0284c7;
+        transform: translateY(-1px);
+        box-shadow: 0 14px 32px rgba(14, 165, 233, 0.45);
+      }
+
+      footer {
+        margin-top: 1.6rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>myaicode mini games</h1>
+      <p class="description">
+        Choose a game to play. This page is designed to work both on Vercel and
+        GitHub Pages.
+      </p>
+      <ul>
+        <li>
+          <a class="game-link" href="src/flip/index.html">
+            <span>Flip Bird</span>
+            <span class="secondary">Tap / Space to flap</span>
+          </a>
+        </li>
+        <li>
+          <a class="game-link" href="src/gomoku/index.html">
+            <span>Gomoku</span>
+            <span class="secondary">Five in a row</span>
+          </a>
+        </li>
+        <li>
+          <a class="game-link" href="src/minesweeper/index.html">
+            <span>Minesweeper</span>
+            <span class="secondary">Classic puzzle</span>
+          </a>
+        </li>
+      </ul>
+      <footer>Open source on GitHub · myaicode</footer>
+    </main>
+  </body>
+  </html>
+
