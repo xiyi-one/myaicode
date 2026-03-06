@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "myaicode",
+  "public": true,
+  "routes": [
+    {
+      "src": "^/(.*)$",
+      "dest": "src/$1"
+    }
+  ]
+}
