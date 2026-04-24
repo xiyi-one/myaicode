@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KenKen</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --ink: #1f2937;
+        --muted: #64748b;
+        --line: #94a3b8;
+        --heavy: #0f172a;
+        --soft: #e0f2fe;
+        --accent: #7c3aed;
+        --accent-dark: #5b21b6;
+        --danger: #dc2626;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: max(18px, env(safe-area-inset-top)) 14px
+          max(20px, env(safe-area-inset-bottom));
+        background:
+          linear-gradient(135deg, rgba(124, 58, 237, 0.12), transparent 42%),
+          #eef2f7;
+        color: var(--ink);
+      }
+
+      main {
+        width: min(100%, 820px);
+        display: grid;
+        grid-template-columns: minmax(300px, 500px) minmax(220px, 260px);
+        gap: 22px;
+        align-items: start;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 7vw, 4.1rem);
+        line-height: 0.95;
+      }
+
+      .status {
+        min-height: 24px;
+        color: var(--accent-dark);
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        aspect-ratio: 1;
+        border: 4px solid var(--heavy);
+        background: #fff;
+        box-shadow: 0 18px 38px rgba(30, 41, 59, 0.18);
+      }
+
+      .cell {
+        position: relative;
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        font-size: clamp(2rem, 8vw, 4rem);
+        font-weight: 900;
+        cursor: pointer;
+        outline: none;
+        touch-action: manipulation;
+      }
+
+      .cell:nth-child(4n) {
+        border-right: 0;
+      }
+
+      .cell:nth-child(n + 13) {
+        border-bottom: 0;
+      }
+
+      .cell.selected {
+        background: #ede9fe;
+      }
+
+      .cell.peer {
+        background: #f5f3ff;
+      }
+
+      .cell.error {
+        color: var(--danger);
+        background: #fee2e2;
+      }
+
+      .cell.cage-top {
+        border-top: 4px solid var(--heavy);
+      }
+
+      .cell.cage-right {
+        border-right: 4px solid var(--heavy);
+      }
+
+      .cell.cage-bottom {
+        border-bottom: 4px solid var(--heavy);
+      }
+
+      .cell.cage-left {
+        border-left: 4px solid var(--heavy);
+      }
+
+      .label {
+        position: absolute;
+        left: 6px;
+        top: 5px;
+        color: var(--muted);
+        font-size: clamp(0.72rem, 2.4vw, 0.98rem);
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .side {
+        display: grid;
+        gap: 12px;
+      }
+
+      .rules {
+        color: var(--muted);
+        font-size: 0.94rem;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+
+      .pad,
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 8px;
+        min-height: 48px;
+        padding: 10px 12px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        transition:
+          background 140ms ease,
+          transform 140ms ease;
+      }
+
+      button:hover {
+        background: var(--accent-dark);
+        transform: translateY(-1px);
+      }
+
+      button.secondary {
+        background: #64748b;
+      }
+
+      button.secondary:hover {
+        background: #475569;
+      }
+
+      .pad button {
+        min-height: 62px;
+        font-size: 1.5rem;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          align-items: start;
+        }
+
+        main {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .side {
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 440px) {
+        body {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        .cell {
+          font-size: clamp(1.8rem, 13vw, 3rem);
+        }
+
+        .pad {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <header>
+          <h1>KenKen</h1>
+          <div class="status" id="status" aria-live="polite"></div>
+        </header>
+        <div class="board" id="board" aria-label="KenKen board"></div>
+      </section>
+
+      <aside class="side">
+        <div class="rules">
+          Fill each row and column with 1-4. Every cage must match its target
+          using the shown operation.
+        </div>
+        <section class="pad" aria-label="Number pad">
+          <button data-number="1" type="button">1</button>
+          <button data-number="2" type="button">2</button>
+          <button data-number="3" type="button">3</button>
+          <button data-number="4" type="button">4</button>
+        </section>
+        <section class="actions" aria-label="Actions">
+          <button class="secondary" id="erase" type="button">Erase</button>
+          <button class="secondary" id="check" type="button">Check</button>
+          <button class="wide" id="newGame" type="button">Reset</button>
+        </section>
+      </aside>
+    </main>
+
+    <script>
+      const size = 4;
+      const solution = [
+        [1, 2, 3, 4],
+        [3, 4, 1, 2],
+        [2, 1, 4, 3],
+        [4, 3, 2, 1],
+      ];
+      const cages = [
+        { id: "a", label: "3+", cells: [[0, 0], [0, 1]], target: 3, op: "+" },
+        { id: "b", label: "3/", cells: [[0, 2], [1, 2]], target: 3, op: "/" },
+        { id: "c", label: "2/", cells: [[0, 3], [1, 3]], target: 2, op: "/" },
+        { id: "d", label: "1-", cells: [[1, 0], [2, 0]], target: 1, op: "-" },
+        { id: "e", label: "5+", cells: [[1, 1], [2, 1]], target: 5, op: "+" },
+        { id: "f", label: "7+", cells: [[2, 2], [2, 3]], target: 7, op: "+" },
+        { id: "g", label: "7+", cells: [[3, 0], [3, 1]], target: 7, op: "+" },
+        { id: "h", label: "2/", cells: [[3, 2], [3, 3]], target: 2, op: "/" },
+      ];
+      const boardEl = document.getElementById("board");
+      const statusEl = document.getElementById("status");
+      const eraseButton = document.getElementById("erase");
+      const checkButton = document.getElementById("check");
+      const newGameButton = document.getElementById("newGame");
+      const numberButtons = [...document.querySelectorAll("[data-number]")];
+      const cageByCell = new Map();
+      let entries = [];
+      let selected = 0;
+
+      cages.forEach((cage) => {
+        cage.cells.forEach(([row, col]) => {
+          cageByCell.set(`${row}-${col}`, cage);
+        });
+      });
+
+      function resetGame() {
+        entries = Array.from({ length: size }, () => Array(size).fill(0));
+        selected = 0;
+        statusEl.textContent = "Select a cell and enter 1-4.";
+        render();
+      }
+
+      function render() {
+        boardEl.innerHTML = "";
+
+        for (let row = 0; row < size; row += 1) {
+          for (let col = 0; col < size; col += 1) {
+            const index = row * size + col;
+            const cell = document.createElement("button");
+            const value = entries[row][col];
+            const cage = cageByCell.get(`${row}-${col}`);
+            cell.className = getCellClasses(row, col);
+            cell.type = "button";
+            cell.dataset.index = index;
+            cell.setAttribute("aria-label", `Row ${row + 1}, column ${col + 1}`);
+            cell.textContent = value || "";
+
+            if (isCageLabelCell(cage, row, col)) {
+              const label = document.createElement("span");
+              label.className = "label";
+              label.textContent = cage.label;
+              cell.appendChild(label);
+            }
+
+            cell.addEventListener("click", () => {
+              selected = index;
+              render();
+            });
+            boardEl.appendChild(cell);
+          }
+        }
+      }
+
+      function getCellClasses(row, col) {
+        const selectedRow = Math.floor(selected / size);
+        const selectedCol = selected % size;
+        const classes = ["cell"];
+        const cage = cageByCell.get(`${row}-${col}`);
+
+        if (row === selectedRow || col === selectedCol) classes.push("peer");
+        if (selected === row * size + col) classes.push("selected");
+        if (entries[row][col] && hasConflict(row, col)) classes.push("error");
+        if (needsCageBorder(cage, row, col, -1, 0)) classes.push("cage-top");
+        if (needsCageBorder(cage, row, col, 0, 1)) classes.push("cage-right");
+        if (needsCageBorder(cage, row, col, 1, 0)) classes.push("cage-bottom");
+        if (needsCageBorder(cage, row, col, 0, -1)) classes.push("cage-left");
+
+        return classes.join(" ");
+      }
+
+      function needsCageBorder(cage, row, col, deltaRow, deltaCol) {
+        const next = cageByCell.get(`${row + deltaRow}-${col + deltaCol}`);
+        return !next || next.id !== cage.id;
+      }
+
+      function isCageLabelCell(cage, row, col) {
+        const [firstRow, firstCol] = cage.cells[0];
+        return row === firstRow && col === firstCol;
+      }
+
+      function hasConflict(row, col) {
+        const value = entries[row][col];
+        if (!value) return false;
+
+        for (let index = 0; index < size; index += 1) {
+          if (index !== col && entries[row][index] === value) return true;
+          if (index !== row && entries[index][col] === value) return true;
+        }
+
+        return false;
+      }
+
+      function setNumber(value) {
+        const row = Math.floor(selected / size);
+        const col = selected % size;
+        entries[row][col] = value;
+        statusEl.textContent = "Keep solving.";
+        render();
+        if (isSolved()) statusEl.textContent = "Solved. Smart grid cleared.";
+      }
+
+      function eraseCell() {
+        const row = Math.floor(selected / size);
+        const col = selected % size;
+        entries[row][col] = 0;
+        statusEl.textContent = "Cell cleared.";
+        render();
+      }
+
+      function cageIsValid(cage, completeOnly) {
+        const values = cage.cells.map(([row, col]) => entries[row][col]);
+        if (values.some((value) => !value)) return !completeOnly;
+
+        if (cage.op === "+") {
+          return values.reduce((sum, value) => sum + value, 0) === cage.target;
+        }
+        if (cage.op === "x") {
+          return values.reduce((product, value) => product * value, 1) === cage.target;
+        }
+        if (cage.op === "-") {
+          return Math.abs(values[0] - values[1]) === cage.target;
+        }
+        if (cage.op === "/") {
+          const [a, b] = values;
+          return Math.max(a, b) / Math.min(a, b) === cage.target;
+        }
+
+        return values[0] === cage.target;
+      }
+
+      function isSolved() {
+        for (let row = 0; row < size; row += 1) {
+          for (let col = 0; col < size; col += 1) {
+            if (entries[row][col] !== solution[row][col]) return false;
+          }
+        }
+
+        return true;
+      }
+
+      function checkBoard() {
+        const empty = entries.some((row) => row.some((value) => value === 0));
+        const conflict = entries.some((row, rowIndex) =>
+          row.some((value, colIndex) => value && hasConflict(rowIndex, colIndex)),
+        );
+        const badCage = cages.some((cage) => !cageIsValid(cage, true));
+
+        if (isSolved()) {
+          statusEl.textContent = "Perfect. Unique solution found.";
+        } else if (conflict) {
+          statusEl.textContent = "A row or column has a repeated number.";
+        } else if (!empty && badCage) {
+          statusEl.textContent = "One cage does not match its target.";
+        } else if (empty) {
+          statusEl.textContent = "No row or column repeats so far.";
+        } else {
+          statusEl.textContent = "Close, but not the unique solution yet.";
+        }
+      }
+
+      function moveSelection(deltaRow, deltaCol) {
+        const row = Math.floor(selected / size);
+        const col = selected % size;
+        const nextRow = Math.min(size - 1, Math.max(0, row + deltaRow));
+        const nextCol = Math.min(size - 1, Math.max(0, col + deltaCol));
+        selected = nextRow * size + nextCol;
+        render();
+      }
+
+      numberButtons.forEach((button) => {
+        button.addEventListener("click", () => setNumber(Number(button.dataset.number)));
+      });
+      eraseButton.addEventListener("click", eraseCell);
+      checkButton.addEventListener("click", checkBoard);
+      newGameButton.addEventListener("click", resetGame);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key >= "1" && event.key <= "4") {
+          setNumber(Number(event.key));
+          return;
+        }
+        if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") {
+          event.preventDefault();
+          eraseCell();
+          return;
+        }
+
+        const moves = {
+          ArrowUp: [-1, 0],
+          ArrowDown: [1, 0],
+          ArrowLeft: [0, -1],
+          ArrowRight: [0, 1],
+        };
+
+        if (moves[event.key]) {
+          event.preventDefault();
+          moveSelection(...moves[event.key]);
+        }
+      });
+
+      resetGame();
+    </script>
+  </body>
+</html>

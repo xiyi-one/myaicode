@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nonogram</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --ink: #1f2937;
+        --muted: #64748b;
+        --line: #cbd5e1;
+        --heavy: #334155;
+        --paint: #111827;
+        --soft: #e0f2fe;
+        --accent: #0f766e;
+        --danger: #dc2626;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: max(18px, env(safe-area-inset-top)) 14px
+          max(20px, env(safe-area-inset-bottom));
+        background:
+          linear-gradient(135deg, rgba(15, 118, 110, 0.12), transparent 44%),
+          #eef2f7;
+        color: var(--ink);
+      }
+
+      main {
+        width: min(100%, 860px);
+        display: grid;
+        grid-template-columns: minmax(320px, 560px) minmax(220px, 260px);
+        gap: 22px;
+        align-items: start;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 7vw, 4rem);
+        line-height: 0.95;
+      }
+
+      .status {
+        min-height: 24px;
+        color: var(--accent);
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .puzzle {
+        display: grid;
+        grid-template-columns: 84px 1fr;
+        grid-template-rows: 84px 1fr;
+        width: 100%;
+        aspect-ratio: 1;
+      }
+
+      .corner {
+        border-right: 3px solid var(--heavy);
+        border-bottom: 3px solid var(--heavy);
+      }
+
+      .col-clues {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        border-bottom: 3px solid var(--heavy);
+      }
+
+      .row-clues {
+        display: grid;
+        grid-template-rows: repeat(10, 1fr);
+        border-right: 3px solid var(--heavy);
+      }
+
+      .clue {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 4px;
+        color: var(--muted);
+        font-size: clamp(0.62rem, 2.1vw, 0.86rem);
+        font-weight: 800;
+        line-height: 1;
+        text-align: center;
+      }
+
+      .col-clues .clue {
+        flex-direction: column;
+      }
+
+      .row-clues .clue {
+        justify-content: flex-end;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .col-clues .clue {
+        border-right: 1px solid var(--line);
+      }
+
+      .row-clues .clue:nth-child(5n),
+      .col-clues .clue:nth-child(5n) {
+        border-color: var(--heavy);
+        border-width: 3px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        background: var(--heavy);
+        border-right: 3px solid var(--heavy);
+        border-bottom: 3px solid var(--heavy);
+      }
+
+      .cell {
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+        color: var(--danger);
+        font: inherit;
+        font-size: clamp(1rem, 4vw, 1.8rem);
+        font-weight: 900;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      .cell:nth-child(5n) {
+        border-right-color: var(--heavy);
+        border-right-width: 3px;
+      }
+
+      .cell:nth-child(n + 41):nth-child(-n + 50) {
+        border-bottom-color: var(--heavy);
+        border-bottom-width: 3px;
+      }
+
+      .cell.filled {
+        background: var(--paint);
+      }
+
+      .cell.marked::before {
+        content: "x";
+      }
+
+      .cell.mistake {
+        background: #fee2e2;
+      }
+
+      .side {
+        display: grid;
+        gap: 12px;
+      }
+
+      .meta {
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.94rem;
+        font-weight: 700;
+      }
+
+      .modes,
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 8px;
+        min-height: 44px;
+        padding: 10px 12px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        transition:
+          background 140ms ease,
+          transform 140ms ease;
+      }
+
+      button:hover {
+        background: #115e59;
+        transform: translateY(-1px);
+      }
+
+      button.secondary {
+        background: #64748b;
+      }
+
+      button.secondary:hover {
+        background: #475569;
+      }
+
+      button.light {
+        background: #dbeafe;
+        color: #1e3a8a;
+      }
+
+      button.light.active {
+        background: #bfdbfe;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 780px) {
+        body {
+          align-items: start;
+        }
+
+        main {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .side {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+
+        .puzzle {
+          grid-template-columns: 64px 1fr;
+          grid-template-rows: 64px 1fr;
+        }
+
+        .clue {
+          padding: 2px;
+          gap: 1px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <header>
+          <h1>Nonogram</h1>
+          <div class="status" id="status" aria-live="polite"></div>
+        </header>
+        <div class="puzzle">
+          <div class="corner"></div>
+          <div class="col-clues" id="colClues"></div>
+          <div class="row-clues" id="rowClues"></div>
+          <div class="grid" id="grid" aria-label="Nonogram board"></div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <div class="meta">
+          <div>Paint filled cells from the row and column clues.</div>
+          <div id="puzzleName"></div>
+        </div>
+        <section class="modes" aria-label="Modes">
+          <button class="light active" id="paintMode" type="button">Paint</button>
+          <button class="light" id="markMode" type="button">Mark</button>
+        </section>
+        <section class="actions" aria-label="Actions">
+          <button class="secondary" id="check" type="button">Check</button>
+          <button class="secondary" id="clear" type="button">Clear</button>
+          <button class="wide" id="newPuzzle" type="button">New Puzzle</button>
+        </section>
+      </aside>
+    </main>
+
+    <script>
+      const size = 10;
+      const patterns = [
+        {
+          name: "Rocket",
+          rows: [
+            "0001100000",
+            "0011110000",
+            "0111111000",
+            "0011110000",
+            "0011110000",
+            "0111111000",
+            "1111111100",
+            "0010010000",
+            "0100001000",
+            "1000000100",
+          ],
+        },
+        {
+          name: "Heart",
+          rows: [
+            "0110011000",
+            "1111111100",
+            "1111111100",
+            "1111111100",
+            "0111111000",
+            "0011110000",
+            "0001100000",
+            "0000000000",
+            "0011110000",
+            "0011110000",
+          ],
+        },
+        {
+          name: "Cat",
+          rows: [
+            "1000001000",
+            "1100011000",
+            "1111111000",
+            "1011101000",
+            "1111111000",
+            "0111110000",
+            "0011100000",
+            "0111110000",
+            "0100010000",
+            "1100011000",
+          ],
+        },
+      ];
+      const gridEl = document.getElementById("grid");
+      const rowCluesEl = document.getElementById("rowClues");
+      const colCluesEl = document.getElementById("colClues");
+      const statusEl = document.getElementById("status");
+      const puzzleNameEl = document.getElementById("puzzleName");
+      const paintModeButton = document.getElementById("paintMode");
+      const markModeButton = document.getElementById("markMode");
+      const checkButton = document.getElementById("check");
+      const clearButton = document.getElementById("clear");
+      const newPuzzleButton = document.getElementById("newPuzzle");
+
+      let solution = [];
+      let state = [];
+      let mode = "paint";
+      let currentPattern = patterns[0];
+
+      function parsePattern(pattern) {
+        return pattern.rows.map((row) => [...row].map(Number));
+      }
+
+      function clues(values) {
+        const result = [];
+        let run = 0;
+
+        values.forEach((value) => {
+          if (value) {
+            run += 1;
+          } else if (run) {
+            result.push(run);
+            run = 0;
+          }
+        });
+
+        if (run) result.push(run);
+        return result.length ? result : [0];
+      }
+
+      function renderClues() {
+        rowCluesEl.innerHTML = "";
+        colCluesEl.innerHTML = "";
+
+        for (let row = 0; row < size; row += 1) {
+          const clue = document.createElement("div");
+          clue.className = "clue";
+          clue.textContent = clues(solution[row]).join(" ");
+          rowCluesEl.appendChild(clue);
+        }
+
+        for (let col = 0; col < size; col += 1) {
+          const clue = document.createElement("div");
+          clue.className = "clue";
+          clues(solution.map((row) => row[col])).forEach((number) => {
+            const span = document.createElement("span");
+            span.textContent = number;
+            clue.appendChild(span);
+          });
+          colCluesEl.appendChild(clue);
+        }
+      }
+
+      function renderGrid(showMistakes = false) {
+        gridEl.innerHTML = "";
+
+        for (let row = 0; row < size; row += 1) {
+          for (let col = 0; col < size; col += 1) {
+            const cell = document.createElement("button");
+            const value = state[row][col];
+            cell.className = "cell";
+            cell.type = "button";
+            cell.setAttribute("aria-label", `Row ${row + 1}, column ${col + 1}`);
+
+            if (value === 1) cell.classList.add("filled");
+            if (value === 2) cell.classList.add("marked");
+            if (showMistakes && value === 1 && !solution[row][col]) {
+              cell.classList.add("mistake");
+            }
+
+            cell.addEventListener("click", () => toggleCell(row, col));
+            gridEl.appendChild(cell);
+          }
+        }
+      }
+
+      function toggleCell(row, col) {
+        if (mode === "paint") {
+          state[row][col] = state[row][col] === 1 ? 0 : 1;
+        } else {
+          state[row][col] = state[row][col] === 2 ? 0 : 2;
+        }
+
+        statusEl.textContent = "";
+        renderGrid();
+        if (isSolved()) statusEl.textContent = "Solved. The picture is complete.";
+      }
+
+      function isSolved() {
+        for (let row = 0; row < size; row += 1) {
+          for (let col = 0; col < size; col += 1) {
+            if ((state[row][col] === 1) !== Boolean(solution[row][col])) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
+
+      function checkPuzzle() {
+        if (isSolved()) {
+          statusEl.textContent = "Perfect. Pixel art unlocked.";
+          renderGrid();
+          return;
+        }
+
+        statusEl.textContent = "Some painted cells are off.";
+        renderGrid(true);
+      }
+
+      function startPuzzle() {
+        currentPattern = patterns[Math.floor(Math.random() * patterns.length)];
+        solution = parsePattern(currentPattern);
+        state = Array.from({ length: size }, () => Array(size).fill(0));
+        puzzleNameEl.textContent = `Puzzle: ${currentPattern.name}`;
+        statusEl.textContent = "Use Paint or Mark to solve it.";
+        renderClues();
+        renderGrid();
+      }
+
+      function setMode(nextMode) {
+        mode = nextMode;
+        paintModeButton.classList.toggle("active", mode === "paint");
+        markModeButton.classList.toggle("active", mode === "mark");
+      }
+
+      paintModeButton.addEventListener("click", () => setMode("paint"));
+      markModeButton.addEventListener("click", () => setMode("mark"));
+      checkButton.addEventListener("click", checkPuzzle);
+      clearButton.addEventListener("click", () => {
+        state = Array.from({ length: size }, () => Array(size).fill(0));
+        statusEl.textContent = "Board cleared.";
+        renderGrid();
+      });
+      newPuzzleButton.addEventListener("click", startPuzzle);
+
+      startPuzzle();
+    </script>
+  </body>
+</html>
