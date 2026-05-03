@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>myaicode games</title>
+    <title>myaicode</title>
     <style>
       :root {
         color-scheme: light;
@@ -50,9 +50,52 @@
       ul {
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin: 0 0 1.4rem;
         display: grid;
         gap: 0.9rem;
+      }
+
+      ul:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding: 0.35rem;
+        border-radius: 999px;
+        background: #e0f2fe;
+      }
+
+      .tab-button {
+        border: 0;
+        border-radius: 999px;
+        padding: 0.75rem 1rem;
+        background: transparent;
+        color: #0369a1;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        transition:
+          background 140ms ease,
+          color 140ms ease,
+          box-shadow 140ms ease;
+      }
+
+      .tab-button[aria-selected="true"] {
+        background: #ffffff;
+        color: #0f172a;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+      }
+
+      .tab-panel[hidden] {
+        display: none;
+      }
+
+      .tab-panel ul {
+        margin-bottom: 0;
       }
 
       a.game-link {
@@ -73,13 +116,23 @@
           background 140ms ease;
       }
 
+      a.lyric-link {
+        background: #7c3aed;
+        box-shadow: 0 10px 25px rgba(124, 58, 237, 0.28);
+      }
+
+      a.lyric-link:hover {
+        background: #6d28d9;
+        box-shadow: 0 14px 32px rgba(124, 58, 237, 0.38);
+      }
+
       a.game-link span.secondary {
         font-weight: 400;
         font-size: 0.85rem;
         opacity: 0.9;
       }
 
-      a.game-link:hover {
+      a.game-link:hover:not(.lyric-link) {
         background: #0284c7;
         transform: translateY(-1px);
         box-shadow: 0 14px 32px rgba(14, 165, 233, 0.45);
@@ -95,12 +148,42 @@
   </head>
   <body>
     <main>
-      <h1>myaicode mini games</h1>
+      <h1>myaicode</h1>
       <p class="description">
-        Choose a game to play. This page is designed to work both on Vercel and
-        GitHub Pages.
+        Choose a game or lyric page. This page is designed to work both on
+        Vercel and GitHub Pages.
       </p>
-      <ul>
+
+      <div class="tabs" role="tablist" aria-label="myaicode sections">
+        <button
+          class="tab-button"
+          id="games-tab"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="games-panel"
+        >
+          Games
+        </button>
+        <button
+          class="tab-button"
+          id="lyrics-tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="lyrics-panel"
+        >
+          Lyrics
+        </button>
+      </div>
+
+      <section
+        class="tab-panel"
+        id="games-panel"
+        role="tabpanel"
+        aria-labelledby="games-tab"
+      >
+        <ul>
         <li>
           <a class="game-link" href="src/flip/index.html">
             <span>Flip Bird</span>
@@ -161,8 +244,48 @@
             <span class="secondary">Wheel control</span>
           </a>
         </li>
-      </ul>
+        </ul>
+      </section>
+
+      <section
+        class="tab-panel"
+        id="lyrics-panel"
+        role="tabpanel"
+        aria-labelledby="lyrics-tab"
+        hidden
+      >
+        <ul>
+          <li>
+            <a class="game-link lyric-link" href="src/lyrics/Five%20Hundred%20Miles.html">
+              <span>Five Hundred Miles</span>
+              <span class="secondary">Lyrics print page</span>
+            </a>
+          </li>
+          <li>
+            <a class="game-link lyric-link" href="src/lyrics/Lemon%20Tree.html">
+              <span>Lemon Tree</span>
+              <span class="secondary">Lyrics print page</span>
+            </a>
+          </li>
+        </ul>
+      </section>
       <footer>Open source on GitHub · myaicode</footer>
     </main>
+    <script>
+      const tabs = document.querySelectorAll('[role="tab"]');
+      const panels = document.querySelectorAll('[role="tabpanel"]');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((item) => {
+            item.setAttribute("aria-selected", String(item === tab));
+          });
+
+          panels.forEach((panel) => {
+            panel.hidden = panel.id !== tab.getAttribute("aria-controls");
+          });
+        });
+      });
+    </script>
   </body>
   </html>

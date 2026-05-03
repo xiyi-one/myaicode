@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Five Hundred Miles - 五百英里｜歌词打印版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #ddd2bc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+            padding: 20px;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            background-image: radial-gradient(circle at 15% 30%, rgba(200,175,130,0.05) 1.5%, transparent 2%);
+            background-size: 30px 30px;
+            margin: 0 auto;
+            padding: 20mm 18mm 20mm 18mm;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 34pt;
+            color: #8b3c1c;
+            border-bottom: 2px solid #dbbc87;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 5px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+        .sub {
+            text-align: center;
+            color: #ad7a4b;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 12pt;
+            border-bottom: 1px dashed #e6d5b8;
+            padding-bottom: 8px;
+        }
+        .song-line {
+            margin-bottom: 6px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .en {
+            font-size: 14pt;
+            font-weight: 500;
+            line-height: 1.55;
+            letter-spacing: 0.3px;
+        }
+        /* 英文颜色分段 */
+        .c1 { color: #1e4a76; }  /* 深蓝 - 主歌 */
+        .c2 { color: #7b3fa0; }  /* 紫色 - 重复句 */
+        .c3 { color: #2d6a4f; }  /* 深绿 - 里程增长 */
+        .c4 { color: #bc3900; }  /* 砖红 - 贫困段落 */
+        
+        .zh {
+            font-size: 10.5pt;
+            color: #b0aa99;
+            font-style: italic;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            padding-left: 4px;
+            letter-spacing: 0.4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dotted #ecdbbc;
+            margin: 12px 0;
+        }
+        .deco {
+            text-align: center;
+            margin: 22px 0 8px;
+            font-size: 22px;
+            color: #cfb27c;
+            opacity: 0.7;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 8pt;
+            color: #bea87b;
+            border-top: 1px dotted #e2d0b0;
+            padding-top: 12px;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 20mm 18mm;
+                width: 100%;
+                min-height: auto;
+            }
+            .zh {
+                color: #bcb2a0 !important;
+                -webkit-print-color-adjust: preserve;
+                print-color-adjust: preserve;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <h1>♫ Five Hundred Miles ♫</h1>
+    <div class="sub">♪ 五百英里 · 经典民谣 ♪</div>
+
+    <!-- 第1段 深蓝色 -->
+    <div class="song-line">
+        <div class="en c1">If you miss the train I’m on,</div>
+        <div class="zh">若你错过我搭乘的那班列车</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">You will know that I’m gone.</div>
+        <div class="zh">你就会知道我已远走他乡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">You can hear the whistle blow a hundred miles.</div>
+        <div class="zh">你能听见汽笛声，在一百里外飘荡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">A hundred miles, a hundred miles,</div>
+        <div class="zh">一百里，一百里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">A hundred miles, a hundred miles.</div>
+        <div class="zh">一百里，一百里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">You can hear the whistle blow a hundred miles.</div>
+        <div class="zh">你能听见汽笛声，在一百里外回响</div>
+    </div>
+
+    <hr>
+
+    <!-- 第2段 深绿色 -->
+    <div class="song-line">
+        <div class="en c3">Lord, I’m one, Lord, I’m two,</div>
+        <div class="zh">主啊，一百里，两百里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Lord, I’m three, Lord, I’m four,</div>
+        <div class="zh">主啊，三百里，四百里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Lord, I’m five hundred miles away from home.</div>
+        <div class="zh">主啊，我已离家五百里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">Away from home, away from home,</div>
+        <div class="zh">远离家乡，远离家乡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">Away from home, away from home.</div>
+        <div class="zh">远离家乡，远离家乡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Lord I’m five hundred miles away from home.</div>
+        <div class="zh">主啊，我已离家五百里</div>
+    </div>
+
+    <hr>
+
+    <!-- 第3段 砖红色 -->
+    <div class="song-line">
+        <div class="en c4">Not a shirt on my back,</div>
+        <div class="zh">身上无衬衫</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Not a penny to my name.</div>
+        <div class="zh">口袋无分文</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Lord, I can’t go back home this way.</div>
+        <div class="zh">主啊，我不能这样回家去 (演唱中常唱成 this-a way)</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">This way, this way,</div>
+        <div class="zh">这样去，这样去</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">This way, this way.</div>
+        <div class="zh">这样去，这样去</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Lord, I can’t go back home this way.</div>
+        <div class="zh">主啊，我不能这样回家去</div>
+    </div>
+
+    <hr>
+
+    <!-- 第4段 再现深蓝色 -->
+    <div class="song-line">
+        <div class="en c1">If you miss the train I’m on,</div>
+        <div class="zh">若你错过我搭乘的那班列车</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">You will know that I’m gone.</div>
+        <div class="zh">你就会知道我已远走他乡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">You can hear the whistle blow a hundred miles.</div>
+        <div class="zh">你能听见汽笛声，在一百里外飘荡</div>
+    </div>
+
+    <div class="deco">⸻ ✦ 火车汽笛 · 游子乡愁 ✦ ⸻</div>
+    <footer>Five Hundred Miles — 经典民谣，电影《醉乡民谣》插曲</footer>
+</div>
+</body>
+</html>

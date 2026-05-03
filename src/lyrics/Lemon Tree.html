@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Lemon Tree - 柠檬树｜歌词打印版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #ddd2bc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+            padding: 20px;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            background-image: radial-gradient(circle at 15% 30%, rgba(200,175,130,0.05) 1.5%, transparent 2%);
+            background-size: 30px 30px;
+            margin: 0 auto;
+            padding: 18mm 16mm 18mm 16mm;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 32pt;
+            color: #5c8a3c;
+            border-bottom: 2px solid #c2d6a8;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 5px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+        .sub {
+            text-align: center;
+            color: #8aa86b;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 11pt;
+            border-bottom: 1px dashed #d8e0c4;
+            padding-bottom: 8px;
+        }
+        .song-line {
+            margin-bottom: 5px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .en {
+            font-size: 12.5pt;
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+        }
+        /* 英文颜色分段 */
+        .c1 { color: #2c5f2d; }  /* 深绿 - 主歌描述 */
+        .c2 { color: #d68b3c; }  /* 橙褐 - 孤独/等待 */
+        .c3 { color: #4a7c59; }  /* 中绿 - 柠檬树重复 */
+        .c4 { color: #b5651e; }  /* 暖棕 - 副歌高潮 */
+        .c5 { color: #6b8c5c; }  /* 灰绿 - 结尾段 */
+        
+        .zh {
+            font-size: 10pt;
+            color: #b0aa99;
+            font-style: italic;
+            line-height: 1.25;
+            margin-bottom: 8px;
+            padding-left: 4px;
+            letter-spacing: 0.3px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dotted #d8e0c4;
+            margin: 8px 0;
+        }
+        .deco {
+            text-align: center;
+            margin: 16px 0 6px;
+            font-size: 20px;
+            color: #b5c48a;
+            opacity: 0.7;
+        }
+        footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 7.5pt;
+            color: #bea87b;
+            border-top: 1px dotted #e2d0b0;
+            padding-top: 10px;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 18mm 16mm;
+                width: 100%;
+                min-height: auto;
+            }
+            .zh {
+                color: #bcb2a0 !important;
+                -webkit-print-color-adjust: preserve;
+                print-color-adjust: preserve;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <h1>♫ Lemon Tree ♫</h1>
+    <div class="sub">♪ 柠檬树 · Fool's Garden (1995) ♪</div>
+
+    <!-- 第1段 深绿色 -->
+    <div class="song-line">
+        <div class="en c1">I'm sitting here in a boring room,</div>
+        <div class="zh">我坐在这无聊的房间里</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">It's just another rainy Sunday afternoon.</div>
+        <div class="zh">又是一个周日下午，下着雨</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">I'm wasting my time, I got nothing to do,</div>
+        <div class="zh">我虚度着时光，无事可做</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">I'm hanging around, I'm waiting for you.</div>
+        <div class="zh">我四处徘徊，等待着你</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">But nothing ever happens, and I wonder.</div>
+        <div class="zh">但什么也没发生，我感到迷茫</div>
+    </div>
+
+    <hr>
+
+    <!-- 第2段 橙褐色 孤独等待 -->
+    <div class="song-line">
+        <div class="en c2">I'm driving around in my car,</div>
+        <div class="zh">我开着车四处兜风</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">I'm driving too fast, I'm driving too far.</div>
+        <div class="zh">我开得太快，开得太远</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">I'd like to change my point of view,</div>
+        <div class="zh">我想换个角度看世界</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">I feel so lonely, I'm waiting for you.</div>
+        <div class="zh">我感到如此孤独，我在等你</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">But nothing ever happens, and I wonder.</div>
+        <div class="zh">但什么也没发生，我感到迷茫</div>
+    </div>
+
+    <hr>
+
+    <!-- 副歌 中绿色 柠檬树主题 -->
+    <div class="song-line">
+        <div class="en c3">I wonder how, I wonder why,</div>
+        <div class="zh">我不知所措，我不明所以</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Yesterday you told me 'bout the blue blue sky,</div>
+        <div class="zh">昨天你还跟我说着蓝蓝的天空</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just a yellow lemon tree.</div>
+        <div class="zh">而如今我能看见的只有一棵黄色的柠檬树</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning my head up and down,</div>
+        <div class="zh">我反复地摇着头</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning, turning, turning, turning, turning around.</div>
+        <div class="zh">我转啊，转啊，转啊，转啊，转来转去</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just another lemon tree.</div>
+        <div class="zh">而我能看见的只是另一棵柠檬树</div>
+    </div>
+
+    <hr>
+
+    <!-- 过渡段 暖棕色 -->
+    <div class="song-line">
+        <div class="en c4">I'm sitting here, I miss the power,</div>
+        <div class="zh">我坐在这里，失去了力量</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">I'd like to go out, taking a shower,</div>
+        <div class="zh">我想出去洗个澡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">But there's a heavy cloud inside my head.</div>
+        <div class="zh">但我的脑海里笼罩着一片乌云</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">I feel so tired, put myself into bed,</div>
+        <div class="zh">我感到疲惫，把自己扔到床上</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Well, nothing ever happens, and I wonder.</div>
+        <div class="zh">唉，什么也没发生，我感到迷茫</div>
+    </div>
+
+    <hr>
+
+    <!-- 副歌重复 中绿色 -->
+    <div class="song-line">
+        <div class="en c3">I wonder how, I wonder why,</div>
+        <div class="zh">我不知所措，我不明所以</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Yesterday you told me 'bout the blue blue sky,</div>
+        <div class="zh">昨天你还跟我说着蓝蓝的天空</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just a yellow lemon tree.</div>
+        <div class="zh">而如今我能看见的只有一棵黄色的柠檬树</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning my head up and down,</div>
+        <div class="zh">我反复地摇着头</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning, turning, turning, turning, turning around.</div>
+        <div class="zh">我转啊，转啊，转啊，转啊，转来转去</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just another lemon tree.</div>
+        <div class="zh">而我能看见的只是另一棵柠檬树</div>
+    </div>
+
+    <hr>
+
+    <!-- 桥段/尾声 灰绿色 -->
+    <div class="song-line">
+        <div class="en c5">I'm sitting here, I miss the power,</div>
+        <div class="zh">我坐在这里，失去了力量</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">I'd like to go out, taking a shower,</div>
+        <div class="zh">我想出去洗个澡</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">But there's a heavy cloud inside my head.</div>
+        <div class="zh">但我的脑海里笼罩着一片乌云</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">I feel so tired, put myself into bed,</div>
+        <div class="zh">我感到疲惫，把自己扔到床上</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">Well, nothing ever happens, and I wonder.</div>
+        <div class="zh">唉，什么也没发生，我感到迷茫</div>
+    </div>
+
+    <hr>
+
+    <!-- 结尾副歌 中绿色 -->
+    <div class="song-line">
+        <div class="en c3">I wonder how, I wonder why,</div>
+        <div class="zh">我不知所措，我不明所以</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Yesterday you told me 'bout the blue blue sky,</div>
+        <div class="zh">昨天你还跟我说着蓝蓝的天空</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just a yellow lemon tree.</div>
+        <div class="zh">而如今我能看见的只有一棵黄色的柠檬树</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning my head up and down,</div>
+        <div class="zh">我反复地摇着头</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">I'm turning, turning, turning, turning, turning around.</div>
+        <div class="zh">我转啊，转啊，转啊，转啊，转来转去</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And all that I can see is just a yellow lemon tree.</div>
+        <div class="zh">而我能看见的只是一棵黄色的柠檬树</div>
+    </div>
+
+    <div class="song-line">
+        <div class="en c5">And I wonder, wonder,</div>
+        <div class="zh">我感到迷茫，迷茫</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">I wonder how, I wonder why,</div>
+        <div class="zh">我不知所措，我不明所以</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">Yesterday you told me 'bout the blue blue sky,</div>
+        <div class="zh">昨天你还跟我说着蓝蓝的天空</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">And all that I can see, and all that I can see,</div>
+        <div class="zh">而我能看见的，而我能看见的</div>
+    </div>
+    <div class="song-line">
+        <div class="en c5">And all that I can see is just a yellow lemon tree.</div>
+        <div class="zh">而我能看见的只是一棵黄色的柠檬树</div>
+    </div>
+
+    <div class="deco">⸻ ✦ 🍋 等待 · 孤独 · 柠檬树 🍋 ✦ ⸻</div>
+    <footer>Lemon Tree — Fool's Garden | 中文翻译仅供参考</footer>
+</div>
+</body>
+</html>
