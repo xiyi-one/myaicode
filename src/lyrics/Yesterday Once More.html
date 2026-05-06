@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Yesterday Once More - 昨日重现｜歌词打印版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #ddd2bc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+            padding: 20px;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            background-image: radial-gradient(circle at 15% 30%, rgba(200,175,130,0.05) 1.5%, transparent 2%);
+            background-size: 30px 30px;
+            margin: 0 auto;
+            padding: 20mm 18mm 20mm 18mm;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 34pt;
+            color: #8b3c1c;
+            border-bottom: 2px solid #dbbc87;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 5px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+        .sub {
+            text-align: center;
+            color: #ad7a4b;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 12pt;
+            border-bottom: 1px dashed #e6d5b8;
+            padding-bottom: 8px;
+        }
+        .song-line {
+            margin-bottom: 6px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .en {
+            font-size: 14pt;
+            font-weight: 500;
+            line-height: 1.55;
+            letter-spacing: 0.3px;
+        }
+        /* 英文颜色分段 */
+        .c1 { color: #1e4a76; }  /* 深蓝 - 主歌 */
+        .c2 { color: #7b3fa0; }  /* 紫色 - 副歌 */
+        .c3 { color: #2d6a4f; }  /* 深绿 - 第二段 */
+        .c4 { color: #bc3900; }  /* 砖红 - 桥段 */
+        
+        .zh {
+            font-size: 10.5pt;
+            color: #b0aa99;
+            font-style: italic;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            padding-left: 4px;
+            letter-spacing: 0.4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dotted #ecdbbc;
+            margin: 12px 0;
+        }
+        .deco {
+            text-align: center;
+            margin: 22px 0 8px;
+            font-size: 22px;
+            color: #cfb27c;
+            opacity: 0.7;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 8pt;
+            color: #bea87b;
+            border-top: 1px dotted #e2d0b0;
+            padding-top: 12px;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 20mm 18mm;
+                width: 100%;
+                min-height: auto;
+            }
+            .zh {
+                color: #bcb2a0 !important;
+                -webkit-print-color-adjust: preserve;
+                print-color-adjust: preserve;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <h1>♫ Yesterday Once More ♫</h1>
+    <div class="sub">♪ 昨日重现 · The Carpenters ♪</div>
+
+    <!-- 第1段 深蓝色 -->
+    <div class="song-line">
+        <div class="en c1">When I was young I'd listen to the radio,</div>
+        <div class="zh">当我年轻时，我常听着收音机，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">Waitin' for my favorite songs.</div>
+        <div class="zh">等待着我最爱的歌曲。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">When they played I'd sing along, it made me smile.</div>
+        <div class="zh">当歌曲播出时，我会跟着唱，这总让我露出微笑。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">Those were such happy times and not so long ago,</div>
+        <div class="zh">那是一段如此快乐的时光，距离现在也不算太久远，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">How I wondered where they'd gone.</div>
+        <div class="zh">我曾好奇它们都去了哪里。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">But they're back again just like a long lost friend,</div>
+        <div class="zh">但它们又回来了，就像一位久别重逢的老友，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c1">All the songs I loved so well.</div>
+        <div class="zh">所有我深爱的歌曲。</div>
+    </div>
+
+    <hr>
+
+    <!-- 副歌 紫色 -->
+    <div class="song-line">
+        <div class="en c2">Every sha-la-la-la,</div>
+        <div class="zh">每一句 sha-la-la-la，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">Every whoa, whoa-oh, still shines.</div>
+        <div class="zh">每一句 whoa, whoa-oh 依然闪耀。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">Every shing-a-ling-a-ling,</div>
+        <div class="zh">每一句 shing-a-ling-a-ling，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">That they're startin' to sing's so fine.</div>
+        <div class="zh">当他们开始唱得如此美妙。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">When they get to the part where he's breakin' her heart,</div>
+        <div class="zh">当唱到他伤了她心的那一段，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">It can really make me cry,</div>
+        <div class="zh">真的会让我落泪，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c2">Just like before, it's yesterday once more.</div>
+        <div class="zh">就像从前一样，仿佛昨日重现。</div>
+    </div>
+
+    <hr>
+
+    <!-- 第2段 深绿色 -->
+    <div class="song-line">
+        <div class="en c3">Lookin' back on how it was in years gone by,</div>
+        <div class="zh">回顾过去逝去的岁月，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And the good times that I had.</div>
+        <div class="zh">以及我曾拥有的美好时光。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Makes today seem rather sad, so much has changed.</div>
+        <div class="zh">让今天显得有些感伤，因为改变了太多。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">It was songs of love that I would sing to then,</div>
+        <div class="zh">那是些关于爱情的歌曲，我曾对着他们歌唱，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">And I'd memorize each word.</div>
+        <div class="zh">我熟记每一个字句。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">Those old melodies still sound so good to me,</div>
+        <div class="zh">那些古老的旋律，听起来依然如此动人，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c3">As they melt the years away.</div>
+        <div class="zh">随着它们融化了流逝的岁月。</div>
+    </div>
+
+    <hr>
+
+    <!-- 结尾 砖红色 -->
+    <div class="song-line">
+        <div class="en c4">Every sha-la-la-la,</div>
+        <div class="zh">每一句 sha-la-la-la，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Every whoa, whoa-oh, still shines.</div>
+        <div class="zh">每一句 whoa, whoa-oh 依然闪耀。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Every shing-a-ling-a-ling,</div>
+        <div class="zh">每一句 shing-a-ling-a-ling，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">That they're startin' to sing's so fine.</div>
+        <div class="zh">当他们开始唱得如此美妙。</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">All my best memories come back clearly to me,</div>
+        <div class="zh">我所有的美好回忆，又清晰地浮现在我脑海，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Some can even make me cry,</div>
+        <div class="zh">有些甚至让我落泪，</div>
+    </div>
+    <div class="song-line">
+        <div class="en c4">Just like before, it's yesterday once more.</div>
+        <div class="zh">就像从前一样，仿佛昨日重现。</div>
+    </div>
+
+    <div class="deco">⸻ ✦ 昔日重来 · 岁月如歌 ✦ ⸻</div>
+    <footer>Yesterday Once More — 卡彭特乐队 (The Carpenters)</footer>
+</div>
+</body>
+</html>
